@@ -697,49 +697,42 @@ kubectl get all -n three-tier-app
 
 ## 📁 Project Structure
 three-tier-app/
-├── backend/
-│   ├── src/
-│   │   └── main/
-│   │       ├── java/
-│   │       │   └── com/example/threetier/
-│   │       │       ├── ThreeTierApplication.java
-│   │       │       ├── controller/
-│   │       │       │   └── ItemController.java
-│   │       │       ├── entity/
-│   │       │       │   └── ItemEntity.java
-│   │       │       ├── repository/
-│   │       │       │   └── ItemRepository.java
-│   │       │       └── service/
-│   │       │           └── ItemService.java
-│   │       └── resources/
-│   │           └── application.yml
-│   ├── pom.xml
-│   └── Dockerfile
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── App.js
-│   │   ├── App.css
-│   │   ├── index.js
-│   │   └── index.css
-│   ├── package.json
-│   ├── nginx.conf
-│   └── Dockerfile
-├── k8s/
-│   ├── namespace.yaml
-│   ├── configmap.yaml
-│   ├── secret.yaml
-│   ├── pvc.yaml
-│   ├── database.yaml
-│   ├── backend.yaml
-│   ├── frontend.yaml
-│   ├── ingress.yaml
-│   ├── deploy.sh
-│   └── cleanup.sh
-├── .gitignore
-└── README.md
-
+│
+├── backend/                # Spring Boot REST API (Business Logic Layer)
+│   ├── src/main/java/      # Java source code
+│   │   ├── controller/     # REST controllers (API endpoints)
+│   │   ├── service/        # Business logic layer
+│   │   ├── repository/     # JPA repositories (DB interaction)
+│   │   ├── entity/         # Database entity classes
+│   │   └── ThreeTierApplication.java  # Main Spring Boot entry point
+│   ├── resources/          # Application configuration files
+│   │   └── application.yml # Database & app configuration
+│   ├── pom.xml             # Maven dependencies & build config
+│   └── Dockerfile          # Backend container configuration
+│
+├── frontend/               # React.js UI (Presentation Layer)
+│   ├── public/             # Static HTML template
+│   ├── src/                # React components & styling
+│   │   ├── App.js          # Main React component
+│   │   └── index.js        # React entry point
+│   ├── package.json        # Node dependencies & scripts
+│   ├── nginx.conf          # NGINX config for production build
+│   └── Dockerfile          # Frontend container configuration
+│
+├── k8s/                    # Kubernetes manifests (Deployment Layer)
+│   ├── namespace.yaml      # Namespace definition
+│   ├── configmap.yaml      # Application configuration
+│   ├── secret.yaml         # Sensitive credentials
+│   ├── pvc.yaml            # Persistent storage for database
+│   ├── database.yaml       # PostgreSQL deployment & service
+│   ├── backend.yaml        # Backend deployment & service
+│   ├── frontend.yaml       # Frontend deployment & service
+│   ├── ingress.yaml        # NGINX Ingress routing rules
+│   ├── deploy.sh           # Automated deployment script
+│   └── cleanup.sh          # Cleanup Kubernetes resources
+│
+├── .gitignore              # Ignored files for Git
+└── README.md               # Project documentation
 ---
 
 ## 🤝 Contributing
