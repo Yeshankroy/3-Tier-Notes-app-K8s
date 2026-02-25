@@ -51,52 +51,42 @@ This project demonstrates a complete 3-tier application architecture:
 ---
 
 ## 🏗 Architecture
-                           ┌──────────────────────────┐
-                           │        Internet          │
-                           └─────────────┬────────────┘
-                                         │
-                                         ▼
-                          ┌──────────────────────────┐
-                          │   Ingress / LoadBalancer │
-                          │    (Nginx / ALB)         │
-                          └─────────────┬────────────┘
-                                        │
-                    ┌───────────────────┴───────────────────┐
-                    │                                       │
-                    ▼                                       ▼
-        ┌──────────────────────┐             ┌──────────────────────┐
-        │  Frontend Service    │             │  Backend Service     │
-        │    (ClusterIP)       │             │    (ClusterIP)       │
-        └──────────┬───────────┘             └──────────┬───────────┘
-                   │                                    │
-                   ▼                                    ▼
-        ┌──────────────────────┐             ┌──────────────────────┐
-        │ Frontend Deployment  │             │ Backend Deployment   │
-        │   Replicas: 2        │             │   Replicas: 2        │
-        │                      │             │                      │
-        │  Nginx + React       │             │  Spring Boot         │
-        │                      │             │  Java 17             │
-        └──────────────────────┘             └──────────┬───────────┘
-                                                         │
-                                                         ▼
-                                           ┌──────────────────────┐
-                                           │ PostgreSQL Service   │
-                                           │    (ClusterIP)       │
-                                           └──────────┬───────────┘
-                                                      │
-                                                      ▼
-                                           ┌──────────────────────┐
-                                           │ PostgreSQL Deployment│
-                                           │   Replicas: 1        │
-                                           │   PostgreSQL 15      │
-                                           └──────────┬───────────┘
-                                                      │
-                                                      ▼
-                                           ┌──────────────────────┐
-                                           │ Persistent Volume    │
-                                           │ Claim (PVC – 5GB)    │
-                                           └──────────────────────┘
 
+                    ┌──────────────────────────┐
+                    │        User Browser      │
+                    │  (http://three-tier-app) │
+                    └─────────────┬────────────┘
+                                  │
+                                  ▼
+                    ┌──────────────────────────┐
+                    │      NGINX Ingress       │
+                    │   (Ingress Controller)   │
+                    └─────────────┬────────────┘
+                                  │
+                 ┌────────────────┴────────────────┐
+                 ▼                                 ▼
+     ┌──────────────────────┐          ┌──────────────────────┐
+     │   Frontend Service   │          │    Backend Service   │
+     │   (ClusterIP)        │          │     (ClusterIP)      │
+     └──────────┬───────────┘          └──────────┬───────────┘
+                │                                   │
+                ▼                                   ▼
+     ┌──────────────────────┐          ┌──────────────────────┐
+     │   Frontend Pod(s)    │          │    Backend Pod(s)    │
+     │      (React + Nginx) │          │   (Spring Boot API)  │
+     └──────────────────────┘          └──────────┬───────────┘
+                                                   │
+                                                   ▼
+                                      ┌────────────────────────┐
+                                      │   PostgreSQL Service   │
+                                      │      (ClusterIP)       │
+                                      └──────────┬─────────────┘
+                                                 │
+                                                 ▼
+                                      ┌────────────────────────┐
+                                      │     PostgreSQL Pod     │
+                                      │   (Persistent Volume)  │
+                                      └────────────────────────┘
 
 ## 💻 Tech Stack
 
@@ -696,43 +686,8 @@ kubectl get all -n three-tier-app
 ---
 
 ## 📁 Project Structure
-three-tier-app/
-│
-├── backend/                # Spring Boot REST API (Business Logic Layer)
-│   ├── src/main/java/      # Java source code
-│   │   ├── controller/     # REST controllers (API endpoints)
-│   │   ├── service/        # Business logic layer
-│   │   ├── repository/     # JPA repositories (DB interaction)
-│   │   ├── entity/         # Database entity classes
-│   │   └── ThreeTierApplication.java  # Main Spring Boot entry point
-│   ├── resources/          # Application configuration files
-│   │   └── application.yml # Database & app configuration
-│   ├── pom.xml             # Maven dependencies & build config
-│   └── Dockerfile          # Backend container configuration
-│
-├── frontend/               # React.js UI (Presentation Layer)
-│   ├── public/             # Static HTML template
-│   ├── src/                # React components & styling
-│   │   ├── App.js          # Main React component
-│   │   └── index.js        # React entry point
-│   ├── package.json        # Node dependencies & scripts
-│   ├── nginx.conf          # NGINX config for production build
-│   └── Dockerfile          # Frontend container configuration
-│
-├── k8s/                    # Kubernetes manifests (Deployment Layer)
-│   ├── namespace.yaml      # Namespace definition
-│   ├── configmap.yaml      # Application configuration
-│   ├── secret.yaml         # Sensitive credentials
-│   ├── pvc.yaml            # Persistent storage for database
-│   ├── database.yaml       # PostgreSQL deployment & service
-│   ├── backend.yaml        # Backend deployment & service
-│   ├── frontend.yaml       # Frontend deployment & service
-│   ├── ingress.yaml        # NGINX Ingress routing rules
-│   ├── deploy.sh           # Automated deployment script
-│   └── cleanup.sh          # Cleanup Kubernetes resources
-│
-├── .gitignore              # Ignored files for Git
-└── README.md               # Project documentation
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/0d4af2f5-733b-4a6a-a0f9-be3130682bf9" />
+
 ---
 
 ## 🤝 Contributing
