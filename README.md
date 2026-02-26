@@ -67,7 +67,7 @@ This project demonstrates a complete 3-tier application architecture:
                  ▼                                 ▼
      ┌──────────────────────┐          ┌──────────────────────┐
      │   Frontend Service   │          │    Backend Service   │
-     │   (ClusterIP)        │          │     (ClusterIP)      │
+     │    ( NodePort)       │          │     (ClusterIP)      │
      └──────────┬───────────┘          └──────────┬───────────┘
                 │                                   │
                 ▼                                   ▼
